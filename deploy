@@ -3,3 +3,5 @@
 
 cd home
 cp -i .inputrc ~/
+cp -i .profile ~/
+cp -Ri bin ~/
