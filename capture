@@ -4,4 +4,5 @@ gitHomePath=`pwd`
 cd ~
 cp -i .inputrc "$gitHomePath"/home
 cp -i .profile "$gitHomePath"/home
+cp -i .bash_profile "$gitHomePath"/home
 cp -iR bin "$gitHomePath"/home/

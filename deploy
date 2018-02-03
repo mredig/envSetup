@@ -4,4 +4,5 @@
 cd home
 cp -i .inputrc ~/
 cp -i .profile ~/
+cp -i .bash_profile ~/
 cp -Ri bin ~/
