@@ -11,9 +11,9 @@ use File::Copy;
 main();
 
 sub main {
-	my $curDir = getCurrentPath();
-	print "$curDir\n";
-	chdir "$curDir";
+	# my $curDir = getCurrentPath();
+	# print "$curDir\n";
+	# chdir "$curDir";
 
 	my $showname = userInput("Please enter the name of the show");
 	my @files = getFileList();
