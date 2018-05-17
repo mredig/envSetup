@@ -4,6 +4,7 @@ use Cwd 'abs_path';
 use File::Basename;
 use File::Copy;
 
+
 # @suffixes = (".mkv", ".mov", ".mp4", ".m4v"); ## currently unused
 
 
@@ -56,7 +57,7 @@ sub generateNewName {
 	# extract season and episode info
 	# [Cleo]Attack_on_Titan_S2_-_01_(Dual Audio_10bit_720p_x265)
 	# $oldBase =~ /(s)(\d+)[^\D]*(\d+)/i;
-	$oldBase =~ /(s|season)(\d{0,2})[^\D]*(e|episode)?(\d+)/i; ## works on harmonquest
+	$oldBase =~ /(s|season)(\d{0,2})[\D]*(e|episode)?(\d+)/i; ## works on harmonquest
 	# $oldBase =~ /s(\d+)e(\d+)/i;
 
 	my $season = $2;
