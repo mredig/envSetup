@@ -29,12 +29,16 @@ sub renameFiles {
 	my $showname = $_[0];
 	my @files = @{$_[1]};
 
+
 	foreach my $file (@files) {
 		my $newName = generateNewName($showname, $file);
 		if (defined $newName) {
 			print "$file ->\n$newName\n\n";
 			if ($commitChanges) {
 				move($file,$newName);
+				open FILEINFO, ">>.file_info";
+				print FILEINFO "$newName=\"$file\"\n";
+				close FILEINFO;
 			}
 
 		}
