@@ -3,6 +3,7 @@
 use Cwd 'abs_path';
 use File::Basename;
 use File::Copy;
+use Encode qw(decode encode);
 
 
 # @suffixes = (".mkv", ".mov", ".mp4", ".m4v"); ## currently unused
@@ -61,14 +62,20 @@ sub generateNewName {
 	# extract season and episode info
 	# [Cleo]Attack_on_Titan_S2_-_01_(Dual Audio_10bit_720p_x265)
 	# $oldBase =~ /(s)(\d+)[^\D]*(\d+)/i;
-	$oldBase =~ /(s|season)(\d{0,2})[\D]*(e|episode)?(\d+)/i; ## works on harmonquest
+	$oldBase =~ /(s|season)?(\d{0,2})[\D]*(e|episode)?(\d+)\D+/i; ## works on harmonquest
 	# $oldBase =~ /s(\d+)e(\d+)/i;
 
 	my $season = $2;
 	my $episode = $4;
 
-	# print "season: $season\n";
-	# print "episode: $episode\n";
+	if ((length $season) == 0 || (length $episode) == 0 ) { ## fallback method
+		$season = getMetaDataBackup("season", $oldBase);
+		$episode = getMetaDataBackup("episode", $oldBase);
+	}
+
+	# print "season: '$season'\n";
+	# print "episode: '$episode'\n";
+
 
 	if ((length $season) == 0) {
 		$season = seasonEpisodeInput("old: $oldBase:\nPlease enter the SEASON. (Any non numerical input will skip this file)");
@@ -91,6 +98,40 @@ sub generateNewName {
 	}
 
 	return $newName;
+}
+
+sub getMetaDataBackup {
+	my $seasonOrEpisode = $_[0];
+	my $oldBase = $_[1];
+
+	# print "fallback $seasonOrEpisode: $oldBase!\n";
+
+	my $charCap = "s";
+	if ($seasonOrEpisode eq "episode") {
+		$charCap = "e";
+	}
+
+	my @nameArray = split //, $oldBase;
+
+	my $rVal = "";
+	for (my $i = 0; $i < scalar(@nameArray); $i++) {
+		my $char = $nameArray[$i];
+		if ($char =~ /$charCap/i) {
+			# print "$char == $charCap\n";
+			my $ii = $i + 1;
+			while ($nameArray[$ii] =~ /\d/) {
+				$rVal .= $nameArray[$ii];
+				$ii ++;
+			}
+			if ($rVal =~ /\d+/) {
+				return $rVal;
+			}
+		} else {
+			# print "$char\n";
+		}
+		$count ++;
+	}
+	return "";
 }
 
 
