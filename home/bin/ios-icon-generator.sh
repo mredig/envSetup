@@ -133,4 +133,25 @@ sips "$SRC_FILE" -Z 50 --out "$DST_PATH/Icon-50.png"
 info 'Generate Icon-50@2x.png ...'
 sips "$SRC_FILE" -Z 100 --out "$DST_PATH/Icon-50@2x.png"
 
+info 'Generate Icon-16.png ...'
+sips "$SRC_FILE" -Z 16 --out "$DST_PATH/Icon-16.png"
+info 'Generate Icon-16@2x.png ...'
+sips "$SRC_FILE" -Z 32 --out "$DST_PATH/Icon-16@2x.png"
+
+info 'Generate Icon-32.png ...'
+sips "$SRC_FILE" -Z 32 --out "$DST_PATH/Icon-32.png"
+info 'Generate Icon-32@2x.png ...'
+sips "$SRC_FILE" -Z 64 --out "$DST_PATH/Icon-32@2x.png"
+
+info 'Generate Icon-128.png ...'
+sips "$SRC_FILE" -Z 128 --out "$DST_PATH/Icon-128.png"
+info 'Generate Icon-128@2x.png ...'
+sips "$SRC_FILE" -Z 256 --out "$DST_PATH/Icon-128@2x.png"
+
+
+info 'Generate Icon-256.png ...'
+sips "$SRC_FILE" -Z 256 --out "$DST_PATH/Icon-256.png"
+info 'Generate Icon-256@2x.png ...'
+sips "$SRC_FILE" -Z 512 --out "$DST_PATH/Icon-256@2x.png"
+
 info 'Generate Done.'
