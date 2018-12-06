@@ -1,0 +1,87 @@
+#!/usr/bin/perl
+use Cwd 'abs_path';
+use File::Basename;
+use File::Copy;
+
+main();
+
+sub main {
+	#get files
+	my @files = getFileList();
+	#gen command
+	my @commands = generateCommands(@files);
+	#run command
+	my $runCommands = checkyN("Is this correct?");
+	if ($runCommands == 1) {
+		foreach my $command (@commands) {
+			print "Running: $command\n";
+			# `$command`;
+		}
+		#cleanup (move old files to archive)
+		cleanup(@files);
+	}
+
+
+}
+
+
+sub getFileList {
+	my @files = <*>;
+	return @files;
+}
+
+sub generateCommands {
+	my @files = @_;
+	my @commands = ();
+	foreach my $file (@files) {
+		my %components = getFileComponents($file);
+		if (length(@components['ext']) > 0) {
+			my $command = "ffmpeg -i '$file' -b:a 64k $components['base'].mkv";
+			push(@commands, $command);
+		}
+	}
+	foreach (@commands) {
+		print "$_\n";
+	}
+	return @commands;
+}
+
+
+sub getFileComponents {
+	my $path = $_[0];
+	$path =~ /(.*)(\.\w+)$/;
+	my $basename = $1;
+	my $ext = $2;
+	my %dict;
+	$dict{"base"} = $basename;
+	$dict{"ext"} = $ext;
+
+	return %dict;
+}
+
+sub checkyN {
+    my $prompt = $_[0] . " [y/N]:";
+    print "$prompt";
+    my $rVal = -1;
+    while($rVal == -1) {
+        chomp(my $yn = <STDIN>);
+        if ($yn =~ /^y+$/i) {
+            $rVal = 1;
+        } elsif ($yn =~ /^n*$/i) {
+            $rVal = 0;
+        } else {
+            print "Sorry, that's not valid input. Please try again:\n\n$prompt";
+        }
+    }
+    return $rVal;
+}
+
+sub cleanup {
+	my @files = @_;
+	foreach my $file (@files) {
+		my $newPath = "/mnt/s3/Media/Archive/$file";
+		print "newpath: $newPath\n";
+		# move($file,$newPath);
+	}
+
+}
