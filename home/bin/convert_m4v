@@ -28,6 +28,8 @@ sub main {
 sub getFileList {
 	my @files = <*.m4v>;
 	push(@files, <*.mp4>);
+	push(@files, <*.flv>);
+	push(@files, <*.avi>);
 #	print @files;
 	return @files;
 }
