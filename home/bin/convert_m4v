@@ -3,6 +3,8 @@ use Cwd 'abs_path';
 use File::Basename;
 use File::Copy;
 
+#requires mkvmerge to be installed on the system
+
 main();
 
 sub main {
