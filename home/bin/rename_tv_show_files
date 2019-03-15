@@ -20,15 +20,22 @@ sub main {
 	my $showname = userInput("Please enter the name of the show");
 	my @files = getFileList();
 
-	$commitChanges = checkyN("Rename files (otherwise just simulate)?");
+	my $commitChanges = 0
+	renameFiles($showname, $commitChanges, \@files);
+	$commitChanges = checkyN("Commit these changes?");
+	if ($commitChanges) {
+		renameFiles($showname, $commitChanges, \@files);
+	} else {
+		print "No changes were made.\n";
+	}
 
-	renameFiles($showname, \@files);
 
 }
 
 sub renameFiles {
 	my $showname = $_[0];
-	my @files = @{$_[1]};
+	my $commitChanges = $_[1];
+	my @files = @{$_[2]};
 
 
 	foreach my $file (@files) {
@@ -41,9 +48,7 @@ sub renameFiles {
 				print FILEINFO "$newName=\"$file\"\n";
 				close FILEINFO;
 			}
-
 		}
-
 	}
 }
 
