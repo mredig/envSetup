@@ -20,7 +20,7 @@ sub main {
 	my $showname = userInput("Please enter the name of the show");
 	my @files = getFileList();
 
-	my $commitChanges = 0
+	my $commitChanges = 0;
 	renameFiles($showname, $commitChanges, \@files);
 	$commitChanges = checkyN("Commit these changes?");
 	if ($commitChanges) {
