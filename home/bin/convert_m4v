@@ -16,8 +16,9 @@ sub main {
 	my $runCommands = checkyN("Is this correct?");
 	if ($runCommands == 1) {
 		foreach my $command (@commands) {
-			print "Running: $command\n";
-			`$command`;
+			print "\nRunning: $command\n";
+			# `$command`;
+			system($command);
 		}
 		#cleanup (move old files to archive)
 		cleanup(@modfiles);
