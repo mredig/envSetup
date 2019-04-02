@@ -82,8 +82,11 @@ sub generateNewName {
 	# print "episode: '$episode'\n";
 
 
-	if ((length $season) == 0) {
-		$season = seasonEpisodeInput("old: $oldBase:\nPlease enter the SEASON. (Any non numerical input will skip this file)");
+	if ((length $season) == 0 && (length $manualSeason) == 0) {
+		$manualSeason = seasonEpisodeInput("old: $oldBase:\nNOTE NOTE NOTE: This season value will apply to all items following, not just this item!\nPlease enter the SEASON. (Any non numerical input will skip this file)");
+		$season = $manualSeason;
+	} elsif ((length $season) == 0 && (length $manualSeason) >= 0) {
+		$season = $manualSeason;		
 	}
 	# if ($season ne "-") {
 	# 	print "season defined\n";
