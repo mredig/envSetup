@@ -3,6 +3,8 @@ use Cwd 'abs_path';
 use File::Basename;
 use File::Copy;
 
+#requires mkvmerge to be installed on the system
+
 main();
 
 sub main {
@@ -14,8 +16,9 @@ sub main {
 	my $runCommands = checkyN("Is this correct?");
 	if ($runCommands == 1) {
 		foreach my $command (@commands) {
-			print "Running: $command\n";
-			`$command`;
+			print "\nRunning: $command\n";
+			# `$command`;
+			system($command);
 		}
 		#cleanup (move old files to archive)
 		cleanup(@modfiles);
@@ -26,7 +29,10 @@ sub main {
 
 
 sub getFileList {
-	my @files = <*>;
+	my @files = <*.m4v>;
+	push(@files, <*.mp4>);
+	push(@files, <*.flv>);
+	push(@files, <*.avi>);
 #	print @files;
 	return @files;
 }
@@ -37,12 +43,14 @@ sub generateCommands {
 	my @commands = ();
 	@modfiles = (); ##ugly, but should work for now
 	foreach my $file (@files) {
+		$file =~ s/'/\\'/;
 		my %components = getFileComponents($file);
 		#print "$file\n";
 		if (length($components{'ext'}) > 0 && $components{'ext'} ne ".mkv") {
-			my $command = "ffmpeg -i '$file' -b:a 64k -vcodec copy '$components{'base'}.mkv'";
+			my $command = "mkvmerge -o '$components{'base'}.mkv' '$file'";
 			push(@commands, $command);
 			push(@modfiles, $file);
+			push(@modfiles, "$components{'base'}.en.srt");
 		}
 	}
 	foreach (@commands) {

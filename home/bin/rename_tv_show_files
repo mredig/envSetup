@@ -20,15 +20,22 @@ sub main {
 	my $showname = userInput("Please enter the name of the show");
 	my @files = getFileList();
 
-	$commitChanges = checkyN("Rename files (otherwise just simulate)?");
+	my $commitChanges = 0;
+	renameFiles($showname, $commitChanges, \@files);
+	$commitChanges = checkyN("Commit these changes?");
+	if ($commitChanges) {
+		renameFiles($showname, $commitChanges, \@files);
+	} else {
+		print "No changes were made.\n";
+	}
 
-	renameFiles($showname, \@files);
 
 }
 
 sub renameFiles {
 	my $showname = $_[0];
-	my @files = @{$_[1]};
+	my $commitChanges = $_[1];
+	my @files = @{$_[2]};
 
 
 	foreach my $file (@files) {
@@ -41,9 +48,7 @@ sub renameFiles {
 				print FILEINFO "$newName=\"$file\"\n";
 				close FILEINFO;
 			}
-
 		}
-
 	}
 }
 
@@ -77,8 +82,11 @@ sub generateNewName {
 	# print "episode: '$episode'\n";
 
 
-	if ((length $season) == 0) {
-		$season = seasonEpisodeInput("old: $oldBase:\nPlease enter the SEASON. (Any non numerical input will skip this file)");
+	if ((length $season) == 0 && (length $manualSeason) == 0) {
+		$manualSeason = seasonEpisodeInput("old: $oldBase:\nNOTE NOTE NOTE: This season value will apply to all items following, not just this item!\nPlease enter the SEASON. (Any non numerical input will skip this file)");
+		$season = $manualSeason;
+	} elsif ((length $season) == 0 && (length $manualSeason) >= 0) {
+		$season = $manualSeason;		
 	}
 	# if ($season ne "-") {
 	# 	print "season defined\n";
