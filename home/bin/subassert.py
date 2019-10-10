@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#https://github.com/thusoy/subassert
 
 import argparse
 import sys
@@ -50,9 +49,10 @@ def list_tracks(ass_file):
 def convert_file(ass_file, tracks):
     # might not appear in order, sort them by start time
     subs = []
-    with open(ass_file) as fh:
+    with open(ass_file, 'r', encoding='utf8') as fh:
         for line in fh:
-            sub = extract_line(line, tracks)
+            sanitizedLine = line.encode('ascii', 'ignore').decode('ascii')
+            sub = extract_line(sanitizedLine, tracks)
             if not sub:
                 continue
             subs.append(sub)
