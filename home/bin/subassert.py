@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#https://github.com/thusoy/subassert
 
 import argparse
 import sys
