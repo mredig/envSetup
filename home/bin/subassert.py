@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-#https://github.com/thusoy/subassert
-
 import argparse
 import sys
 import textwrap
@@ -61,7 +59,7 @@ def convert_file(ass_file, tracks):
 
     counter = 1
     for sub in subs:
-        print('%d\n%s\n' % (counter, format_sub(sub)))
+        print(('%d\n%s\n' % (counter, format_sub(sub))))
         counter += 1
 
 
