@@ -17,7 +17,11 @@ sub main {
 	# print "$curDir\n";
 	# chdir "$curDir";
 
-	my $showname = userInput("Please enter the name of the show");
+	my $showname = $ARGV[0];
+	if ($showname eq "") {
+		$showname = userInput("Please enter the name of the show");
+	}
+
 	my @files = getFileList();
 
 	my $commitChanges = 0;
